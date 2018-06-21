@@ -3,14 +3,16 @@
 """Console script for pyalmondplus."""
 import sys
 import click
+import pyalmondplus.api
 
 
 @click.command()
-def main(args=None):
+@click.option('--url', default='')
+def main(url):
     """Console script for pyalmondplus."""
-    click.echo("Replace this message by putting your code into "
-               "pyalmondplus.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+    click.echo("Connecting to " + url)
+    almond_devices = pyalmondplus.api.PyAlmondPlus(url)
+
     return 0
 
 

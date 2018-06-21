@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = ['Click>=6.0', 'websockets']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -35,7 +35,7 @@ setup(
     description="this library is to create a API for HomeAssistant ",
     entry_points={
         'console_scripts': [
-            'pyalmondplus=pyalmondplus.cli:main',
+            'testapi=pyalmondplus.cli:main',
         ],
     },
     install_requires=requirements,
