@@ -5,8 +5,16 @@ watchdog==0.8.3
 flake8==3.5.0
 tox==3.0.0
 coverage==4.5.1
+<<<<<<< HEAD
+Sphinx==1.7.1
+twine==1.10.0
+websockets==5.0
+pytest==3.4.2
+pytest-runner==2.11.1
+=======
 Sphinx==1.7.5
 twine==1.11.0
 
 pytest==3.6.2
 pytest-runner==4.2
+>>>>>>> f239dcb1a30544f644dbba2c4e61dc0ee4e8f900

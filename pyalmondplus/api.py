@@ -4,14 +4,14 @@ import websockets
 import json
 
 
-class PyAlmondPlus():
+class PyAlmondPlus:
 
     api_url = None
 
-    def init__(self, api_url):
+    def __init__(self, api_url):
         self.api_url = api_url
         print("Start")
-        asyncio.get_event_loop().run_until_complete(self.device_list())
+        asyncio.get_event_loop().run_until_complete(PyAlmondPlus.device_list(self))
 
     async def device_list(self):
         # url_connect = "ws://192.168.1.2:7681/root/" + password

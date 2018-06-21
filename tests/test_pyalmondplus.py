@@ -7,7 +7,7 @@ import pytest
 
 from click.testing import CliRunner
 
-from pyalmondplus import pyalmondplus
+from pyalmondplus import api
 from pyalmondplus import cli
 
 
