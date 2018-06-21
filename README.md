@@ -5,6 +5,7 @@ It is a wrapper for the Almond+ websocket interface.
 The Almond+ is a discontinued product from Securifi. It main goal was a wifi router, but they added zwave and zigbee radios and has some decent automation. But Home Assistant is better, so now with this API you can use the Almond+ as a zwave and zigbee hub.
 
 See both https://www.home-assistant.io/ and https://forum.securifi.com/ for more information.
+This is to test an update(3).
 
 ## Getting Started
 
