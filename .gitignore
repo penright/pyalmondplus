@@ -46,6 +46,7 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+.travis.yml
 
 # Translations
 *.mo
@@ -73,6 +74,7 @@ target/
 
 # pyenv
 .python-version
+pyvenv.cfg
 
 # celery beat schedule file
 celerybeat-schedule
@@ -100,3 +102,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#PyCharm
+.idea
