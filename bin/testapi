@@ -1,4 +1,4 @@
-#!/home/paul/pyalmondplus/bin/python
+#!/Users/paulenright/pyalmondplus/bin/python3
 # EASY-INSTALL-ENTRY-SCRIPT: 'pyalmondplus','console_scripts','testapi'
 __requires__ = 'pyalmondplus'
 import re

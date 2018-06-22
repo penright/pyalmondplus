@@ -5,11 +5,19 @@ It is a wrapper for the Almond+ websocket interface.
 The Almond+ is a discontinued product from Securifi. It main goal was a wifi router, but they added zwave and zigbee radios and has some decent automation. But Home Assistant is better, so now with this API you can use the Almond+ as a zwave and zigbee hub.
 
 See both https://www.home-assistant.io/ and https://forum.securifi.com/ for more information.
-This is to test an update(3).
 
 ## Getting Started
 
-Not sure what I need here yet.
+The project was developed on both Linux and OSX.
+So the virtual environment is not saved to the repository.
+So you must set it up first. After cloning ....
+1. python3 -m venv pyalmondplus/
+2. source pyalmondplus/bin/activate
+3. testapi --url ws://x.x.x.x:7681/root/password
+
+In all examples of the URL x.x.x.x is the IP for and password is your password for the Almond+ 
+When you run the testapi it will tell you the environment is correct and there is a connection to the Almond+.
+More details are in the "Installing" and "Testing" areas.
 
 ### Prerequisites
 
