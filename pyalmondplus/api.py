@@ -7,6 +7,7 @@ import json
 class PyAlmondPlus:
 
     api_url = None
+    email_id = None
 
     def __init__(self, api_url):
         self.api_url = api_url
@@ -21,18 +22,28 @@ class PyAlmondPlus:
             name = str(
                 '{"MobileInternalIndex":"231234","CommandType":"DeviceList"}')
             await ws.send(name)
-            # print(f"> {name}")
-            greeting = await ws.recv()
-            print()
-            print(f"< {greeting}")
-            print()
+            device_header_info = json.loads(await ws.recv())
+            self.email_id = (device_header_info['EmailId'])
             await ws.send(name)
-            greeting = await ws.recv()
-            print()
-            print(f"< {greeting}")
-            print()
-            jsontest = json.loads(greeting)
-            print(jsontest['Devices'])
+            device_detail_info = json.loads(await ws.recv())['Devices']
+            print(len(device_detail_info))
+            #print(json.dumps(device_detail_info))
+            for key in device_detail_info:
+                value = device_detail_info[key]
+                print("The key and value are ({}) = ({})".format(key, value['Data']['Name']))
+
+class AlmondPlusEntity:
+    def __index__(self, almondplus_device):
+        self.ID = almondplus_device["ID"]
+        self.Name = almondplus_device("Name")
+        self.FriendlyDeviceType = almondplus_device["FriendlyDeviceType"]
+        self.Type = almondplus_device["Type"]
+        self.Location = almondplus_device["Location"]
+        self.LastActiveEpoch = almondplus_device["LastActiveEpoch"]
+        self.Model = almondplus_device["Model"]
+        self.Version = almondplus_device["Version"]
+        self.Manufacturer = almondplus_device["Manufacturer"]
+        self.device_value_count = len(almondplus_device["DeviceValues"])
 
 
 #
