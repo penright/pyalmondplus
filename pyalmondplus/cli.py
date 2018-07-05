@@ -2,36 +2,38 @@
 
 """Console script for pyalmondplus."""
 import sys
-import asyncio
 import time
-import threading
 import click
 import pyalmondplus.api
+import threading
+import asyncio
 
-loop = None
-@click.command()
-@click.option('--url', default='')
-
-def main(url):
-    """Console script for pyalmondplus."""
+def do_commands(url, my_api):
     click.echo("Connecting to " + url)
-    almond_devices = pyalmondplus.api.PyAlmondPlus(url, loop)
-    almond_devices.start()
-    print("Connected to Almond+")
     while True:
         value = click.prompt("What next: ")
         print("command is: " + value)
         if value == "stop":
             break
-    almond_devices.stop()
-    return 0
+        elif value == "dl":
+            my_api.get_device_list()
 
-def LoopStart():
-    global loop
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    print("Do command is stopped")
+    my_api.stop()
+    time.sleep(3)
 
-if __name__ == "__main__":
-    t = threading.Thread(target=LoopStart())
-    t.start()
-    sys.exit(main())  # pragma: no cover
+
+def api_start(url, my_api):
+    print("Do commands 1")
+    my_api.start()
+    print("Connected to Almond+")
+
+
+@click.command()
+@click.option('--url', default='')
+def main(url):
+    my_api = pyalmondplus.api.PyAlmondPlus(url)
+    do_command = threading.Thread(target=do_commands, args=(url, my_api))
+    do_command.start()
+    start_api = threading.Thread(target=api_start, args=(url, my_api))
+    start_api.start()
