@@ -3,7 +3,7 @@ import threading
 import asyncio
 import websockets
 import json
-#This is to test merg #20
+#This is to test merg #30
 
 class PyAlmondPlus:
 
