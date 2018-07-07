@@ -3,6 +3,7 @@ import threading
 import asyncio
 import websockets
 import json
+import time
 
 class PyAlmondPlus:
 
@@ -14,14 +15,16 @@ class PyAlmondPlus:
         self.event_callback = event_callback
         self.keep_running = True
         self.client_running = False
-        t = threading.Thread(target=self.api_dispatcher, args=())
+        t = threading.Thread(target=self.start_loop(), args=())
         t.start()
 
     async def connect(self):
         print("connecting")
         if self.ws is None:
-            print("opening socket")
-            self.ws = await websockets.connect(self.api_url)
+            print("opening socket ("+self.api_url+')')
+            self.ws = websockets.connect(self.api_url)
+            print("Socket connected")
+            await self.receive()
         print(self.ws)
 
     async def disconnect(self):
@@ -47,12 +50,10 @@ class PyAlmondPlus:
     async def api_dispatcher(self):
         while self.keep_running:
             print("Before sleep")
-            asyncio.sleep(1000)
+            time.sleep(5)
             print("After sleep")
-            if self.client_running:
-                if self.ws is None:
-                    await self.connect()
-
+            if self.ws is None:
+                await self.connect()
 
     def start(self):
         self.keep_running = True
@@ -71,8 +72,6 @@ class PyAlmondPlus:
         print("Stop 1")
         self.keep_running = False
         print("Stop 2")
-        self.ws.close()
-        print("Stop 3")
 
 
 # class testingThread(threading.Thread):
