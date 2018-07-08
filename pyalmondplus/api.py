@@ -4,6 +4,7 @@ import websocket
 import json
 import time
 
+
 class PyAlmondPlus:
 
     def __init__(self, api_url, event_callback=None):
@@ -46,12 +47,15 @@ class PyAlmondPlus:
         try:
             recv_data = self.ws.recv()
             print(recv_data)
-        except:
+        except Exception as e:
             print("Error")
+            print("**************************\n"
+                  + str(e) + "\n"
+                  + "**************************")
             self.ws = None
             return
         print("receive ended")
-        if self.keep_running:
+        if self.client_running:
             self.receive()
 
     def api_dispatcher(self):
@@ -69,10 +73,11 @@ class PyAlmondPlus:
 
     def stop(self):
         print("Stop 1")
+        self.client_running = False
+        self.keep_running = False
         if self.ws is not None:
             self.ws.close()
             self.ws = None
-        self.keep_running = False
         print("Stop 2")
 
 
