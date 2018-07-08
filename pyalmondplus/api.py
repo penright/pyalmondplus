@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import threading
-import asyncio
-import websockets
+import websocket
 import json
 import time
 
@@ -10,24 +9,28 @@ class PyAlmondPlus:
     def __init__(self, api_url, event_callback=None):
         self.api_url = api_url
         self.ws = None
-        self.loop = asyncio.get_event_loop()
         self.receive_task = None
         self.event_callback = event_callback
         self.keep_running = True
         self.client_running = False
-        t = threading.Thread(target=self.start_loop(), args=())
+        t = threading.Thread(target=self.api_dispatcher, args=())
         t.start()
 
-    async def connect(self):
+    def __del__(self):
+        print("Delete started")
+        if self.ws is not None:
+            self.stop()
+        print("deleted")
+
+    def connect(self):
         print("connecting")
         if self.ws is None:
             print("opening socket ("+self.api_url+')')
-            self.ws = websockets.connect(self.api_url)
+            self.ws = websocket.WebSocket()
+            self.ws.connect(self.api_url)
             print("Socket connected")
-            await self.receive()
-        print(self.ws)
 
-    async def disconnect(self):
+    def disconnect(self):
         pass
 
     def get_device_list(self):
@@ -38,38 +41,37 @@ class PyAlmondPlus:
         print("sending "+message)
         self.ws.send(message)
 
-    async def receive(self):
+    def receive(self):
         print("receive started")
-        while self.keep_running:
-            if self.ws is None:
-                await self.connect()
-            recv_data = await self.ws.recv()
+        try:
+            recv_data = self.ws.recv()
             print(recv_data)
+        except:
+            print("Error")
+            self.ws = None
+            return
         print("receive ended")
+        if self.keep_running:
+            self.receive()
 
-    async def api_dispatcher(self):
+    def api_dispatcher(self):
         while self.keep_running:
-            print("Before sleep")
-            time.sleep(5)
-            print("After sleep")
-            if self.ws is None:
-                await self.connect()
+            print("Dispatcher Start")
+            if self.client_running:
+                print("Client is running")
+                if self.ws is None:
+                    print("self.ws is none")
+                    self.connect()
+                    self.receive()
 
     def start(self):
-        self.keep_running = True
-
-    def start_loop(self):
-        print("Loop helper 1")
-        policy = asyncio.get_event_loop_policy()
-        policy.set_event_loop(policy.new_event_loop())
-        self.loop = asyncio.get_event_loop()
-        self.loop.set_debug(True)
-        asyncio.set_event_loop(self.loop)
-        self.loop.run_until_complete(self.api_dispatcher())
-        print("Loop helper 2")
+        self.client_running = True
 
     def stop(self):
         print("Stop 1")
+        if self.ws is not None:
+            self.ws.close()
+            self.ws = None
         self.keep_running = False
         print("Stop 2")
 
